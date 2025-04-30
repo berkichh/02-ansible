@@ -1,0 +1,17 @@
+---
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Configure load balancer
+  template:
+    src: "{{ nginx_conf }}.j2"
+    dest: "/etc/nginx/conf.d/{{ nginx_conf }}"
+  notify: Restart Nginx
+
+- name: Ensure Nginx is running
+  service:
+    name: nginx
+    state: started
+    enabled: yes

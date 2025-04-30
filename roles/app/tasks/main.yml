@@ -1,0 +1,17 @@
+---
+- name: Log in to Docker Hub
+  docker_login:
+    username: "{{ docker_registry.split('/')[0] }}"
+    password: "{{ dockerhub_password }}"  
+
+- name: Run web-app containers
+  docker_container:
+    name: "webapp_{{ item }}"
+    image: "{{ docker_registry }}:latest"
+    state: started
+    restart_policy: unless-stopped
+    ports:
+      - "800{{ item }}:8000"
+    env:
+      AUTHOR: "{{ author_name }}"
+  loop: [1, 2, 3]

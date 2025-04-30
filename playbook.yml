@@ -1,0 +1,12 @@
+---
+- hosts: web
+  become: yes
+  vars:
+    docker_registry: "berkichh/echo-app"
+    author_name: "Nikita"
+    nginx_conf: "load_balancer.conf"
+
+  roles:
+    - role: docker
+    - role: app
+    - role: nginx
